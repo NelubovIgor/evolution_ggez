@@ -4,37 +4,22 @@ mod constants;
 mod grass;
 
 use ggez::{Context, ContextBuilder, GameResult};
-use ggez::graphics::{self, Color, Mesh, Drawable, DrawMode, DrawParam, Rect, Text};
+use ggez::graphics::{self, Color, Mesh, DrawMode, DrawParam, Rect, Text};
 use ggez::event::{self, EventHandler};
-use ggez::input::keyboard::{KeyCode, KeyInput, KeyboardContext};
+use ggez::input::keyboard::{KeyCode, KeyInput};
 use nalgebra::geometry::Point2;
-// use std::collections::HashSet;
-// use ordered_float::OrderedFloat;
+
 use rand::Rng;
 
 use crate::body::Body;
 use crate::agent::Agent;
 use crate::grass::Grass;
 
-// type OrderedPosition = (OrderedFloat<f32>, OrderedFloat<f32>);
-
-// fn generate_random_position(width: f32, height: f32, occupied_positions: &HashSet<OrderedPosition>) -> Point2<f32> {
-//     let mut rng = rand::thread_rng();
-
-//     loop {
-//         let x = rng.gen_range(0.0..width);
-//         let y = rng.gen_range(0.0..height);
-//         let ordered_pos = (OrderedFloat(x), OrderedFloat(y));
-//         if !occupied_positions.contains(&ordered_pos) {
-//             return Point2::new(x, y);
-//         }
-//     }
-// }
 
 fn random_point() -> Point2<f32> {
     let mut rng = rand::thread_rng();
-    let x = rng.gen_range(0.0..constants::MAIN_WIDTH);
-    let y = rng.gen_range(0.0..constants::MAIN_HEIGHT);
+    let x: f32 = rng.gen_range(0.0..constants::MAIN_WIDTH);
+    let y: f32 = rng.gen_range(0.0..constants::MAIN_HEIGHT);
 
     return Point2::new(x, y);
 }
@@ -62,21 +47,18 @@ struct MyGame {
     player: Agent,
     paused: bool,
     bodies: Vec<Body>,
-    // occupied_positions: HashSet<OrderedPosition>,
 }
 
 impl MyGame {
     pub fn new(ctx: &mut Context) -> MyGame {
-        let paused = true;
-        // let mut occupied_positions: HashSet<OrderedPosition>  = HashSet::new();
-        let mut agents = Vec::with_capacity(200);
-        let mut grasses = Vec::with_capacity(200);
-        let mut bodies = Vec::new();
+        let paused: bool = true;
+        let mut agents: Vec<Agent> = Vec::with_capacity(200);
+        let mut grasses: Vec<Grass> = Vec::with_capacity(200);
+        let mut bodies: Vec<Body> = Vec::new();
 
 
         let point_player = Point2::new(100.0, 100.0);
         let player: Agent = Agent::new(point_player, Some(2.0), Some(Color::RED), Some(1.5));
-        // occupied_positions.insert((OrderedFloat(point_player.x), OrderedFloat(point_player.y)));
 
         for i in 0..20 {
             let position: Point2<f32> = random_point();
@@ -85,12 +67,9 @@ impl MyGame {
 
         for i in 0..20 {
             let position: Point2<f32> = random_point();
-            // let position: Point2<f32> = generate_random_position(constants::MAIN_WIDTH, constants::MAIN_HEIGHT, &occupied_positions);      
-            // occupied_positions.insert((OrderedFloat(position.x), OrderedFloat(position.y)));
             agents.push(Agent::new(position, None, None, None));
         }
 
-        // bodies.push(player.body.clone());
         for agent in &agents {
             bodies.push(agent.body.clone());
         }
@@ -106,7 +85,6 @@ impl MyGame {
             agents,
             bodies,
             grasses,
-            // occupied_positions,
         }
     }
 }

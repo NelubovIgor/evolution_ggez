@@ -4,6 +4,7 @@ use nalgebra::geometry::Point2;
 use ggez::graphics::Color;
 
 use crate::body::Body;
+use crate::constants;
 
 pub struct Agent {
     pub body: Body,
@@ -12,7 +13,7 @@ pub struct Agent {
 
 impl Agent {
     pub fn new(position: Point2<f32>, radius: Option<f32>, color: Option<Color>, speed: Option<f32>) -> Self {
-        let radius = radius.unwrap_or(1.0);
+        let radius = radius.unwrap_or(constants::SIZE_CELL);
         let color = color.unwrap_or(Color::BLUE);
         let speed = speed.unwrap_or(1.0);
 

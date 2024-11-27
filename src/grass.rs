@@ -1,5 +1,3 @@
-use ggez::Context;
-use ggez::input::keyboard::KeyCode;
 use nalgebra::geometry::Point2;
 use ggez::graphics::Color;
 
